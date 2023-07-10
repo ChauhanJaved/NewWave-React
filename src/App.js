@@ -6,7 +6,8 @@ import News from "./components/News";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 export default class App extends Component {
-  pageSize = 5;
+  pageSize = 20;
+  apiKey="74dcf378f4c24600b5b5e38115eb05d6";
   router = createBrowserRouter([
     {
       path: "/",
@@ -18,7 +19,7 @@ export default class App extends Component {
             pageSize={this.pageSize}
             country="in"
             category="general"
-            apiKey="1c8d90bf5ac347e38bd960feb71d9c0d"
+            apiKey = {this.apiKey}
           />
         </div>
       ),
@@ -33,7 +34,7 @@ export default class App extends Component {
             pageSize={this.pageSize}
             country="in"
             category="business"
-            apiKey="1c8d90bf5ac347e38bd960feb71d9c0d"
+            apiKey = {this.apiKey}
           />
         </div>
       ),
@@ -48,7 +49,7 @@ export default class App extends Component {
             pageSize={this.pageSize}
             country="in"
             category="entertainment"
-            apiKey="1c8d90bf5ac347e38bd960feb71d9c0d"
+            apiKey = {this.apiKey}
           />
         </div>
       ),
@@ -63,7 +64,7 @@ export default class App extends Component {
             pageSize={this.pageSize}
             country="in"
             category="health"
-            apiKey="1c8d90bf5ac347e38bd960feb71d9c0d"
+            apiKey = {this.apiKey}
           />
         </div>
       ),
@@ -78,7 +79,7 @@ export default class App extends Component {
             pageSize={this.pageSize}
             country="in"
             category="science"
-            apiKey="1c8d90bf5ac347e38bd960feb71d9c0d"
+            apiKey = {this.apiKey}
           />
         </div>
       ),
@@ -93,7 +94,7 @@ export default class App extends Component {
             pageSize={this.pageSize}
             country="in"
             category="sports"
-            apiKey="1c8d90bf5ac347e38bd960feb71d9c0d"
+            apiKey = {this.apiKey}
           />
         </div>
       ),
@@ -108,7 +109,7 @@ export default class App extends Component {
             pageSize={this.pageSize}
             country="in"
             category="technology"
-            apiKey="1c8d90bf5ac347e38bd960feb71d9c0d"
+            apiKey = {this.apiKey}
           />
         </div>
       ),

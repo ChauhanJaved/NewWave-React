@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default class News extends Component {
   static defaultProps = { country: "in", pageSize: 8, category: "general" };
@@ -10,50 +11,70 @@ export default class News extends Component {
     pageSize: PropTypes.number,
     category: PropTypes.string,
   };
-  constructor() {
-    super();
-    this.state = {
-      articles: [],
-      loading: false,
-      page: 1,
-      totalResults: 0,
-    };
-  }
-  async updateNews() {
+  fetchMoreData = async () => {
+    if (this.state.articles.length >= this.state.totalResults) {
+      this.setState({ hasMore: false });
+      return;
+    }
+    this.setState({ page: this.state.page + 1 });
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    console.log(url);
-    this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
     this.setState({
-      articles: parsedData.articles,
-      loading: false,
-      totalResults: parsedData.totalResults,
+      articles: this.state.articles.concat(parsedData.articles)          
     });
-  }
+  };
+  capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      articles: [],      
+      page: 1,
+      totalResults: 0,
+      hasMore: true
+    };
+    document.title = `${this.capitalizeFirstLetter(
+      this.props.category
+    )}- NewsWave`;
+  };
+  async updateNews() {
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    console.log(url);    
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({
+      articles: parsedData.articles,      
+      totalResults: parsedData.totalResults
+    });
+  };
   async componentDidMount() {
-      this.updateNews();
-  }
-  handlePrevClick = async () => {
-    this.setState({ page: this.state.page - 1 }, () => {
-      this.updateNews();
-    });
-  };
-  handleNextClick = async () => {
-    this.setState({ page: this.state.page + 1 }, () => {
-      this.updateNews();
-    });
-  };
+    console.log("componentDidMount");
+    this.updateNews();
+  }; 
   render() {
-    return (
-      <div className="container my-3">
+    return (      
+      <div className="container my-3">        
+        {console.log("In")}
         <div className="text-center mb-4 mt-4">
-          <h2>NewsWave: Top Headlines</h2>
-          {this.state.loading && <Spinner />}
+          <h2>
+            NewsWave: Top {this.capitalizeFirstLetter(this.props.category)}{" "} Headlines
+          </h2>          
         </div>
-        <div className="row">
-          {!this.state.loading &&
-            this.state.articles.map((element) => {
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.hasMore}
+          loader={<Spinner />}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          <div className="row">
+            {this.state.articles.map((element) => {
               return (
                 <div className="col-md-3" key={element.url}>
                   <NewsItem
@@ -68,8 +89,9 @@ export default class News extends Component {
                 </div>
               );
             })}
-        </div>
-        <div className="container d-flex justify-content-between">
+          </div>
+        </InfiniteScroll>
+        {/* <div className="container d-flex justify-content-between">
           <button
             disabled={this.state.page - 1 <= 0 ? true : false}
             type="button"
@@ -91,7 +113,7 @@ export default class News extends Component {
           >
             Next &rarr;
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }
