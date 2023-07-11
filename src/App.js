@@ -4,37 +4,50 @@ import React, { Component } from "react";
 import NavBar from "./components/NavBar";
 import News from "./components/News";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LoadingBar from "react-top-loading-bar";
 
 export default class App extends Component {
   pageSize = 20;
-  apiKey="74dcf378f4c24600b5b5e38115eb05d6";
+  apiKey = "74dcf378f4c24600b5b5e38115eb05d6";
+ 
+    state = {
+      progress: 0 // Initial state value
+    };
+  
+
+  setProgress = (progress)=>{
+    this.setState({progress: progress})
+  }
+ 
   router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <div>
+        <div>              
           <NavBar />
           <News
+            setProgress={this.setProgress}            
             key="general"
             pageSize={this.pageSize}
             country="in"
             category="general"
-            apiKey = {this.apiKey}
-          />
+            apiKey={this.apiKey}
+          />          
         </div>
       ),
     },
     {
       path: "business",
       element: (
-        <div>
+        <div>          
           <NavBar />
           <News
+            setProgress={this.setProgress}            
             key="business"
             pageSize={this.pageSize}
             country="in"
             category="business"
-            apiKey = {this.apiKey}
+            apiKey={this.apiKey}
           />
         </div>
       ),
@@ -42,14 +55,15 @@ export default class App extends Component {
     {
       path: "entertainment",
       element: (
-        <div>
+        <div>          
           <NavBar />
           <News
+            setProgress={this.setProgress}
             key="entertainment"
             pageSize={this.pageSize}
             country="in"
             category="entertainment"
-            apiKey = {this.apiKey}
+            apiKey={this.apiKey}
           />
         </div>
       ),
@@ -57,14 +71,15 @@ export default class App extends Component {
     {
       path: "health",
       element: (
-        <div>
+        <div>          
           <NavBar />
           <News
+            setProgress={this.setProgress}
             key="health"
             pageSize={this.pageSize}
             country="in"
             category="health"
-            apiKey = {this.apiKey}
+            apiKey={this.apiKey}
           />
         </div>
       ),
@@ -72,14 +87,15 @@ export default class App extends Component {
     {
       path: "science",
       element: (
-        <div>
+        <div>          
           <NavBar />
           <News
+            setProgress={this.setProgress}
             key="science"
             pageSize={this.pageSize}
             country="in"
             category="science"
-            apiKey = {this.apiKey}
+            apiKey={this.apiKey}
           />
         </div>
       ),
@@ -87,14 +103,15 @@ export default class App extends Component {
     {
       path: "sports",
       element: (
-        <div>
+        <div>          
           <NavBar />
           <News
+            setProgress={this.setProgress}
             key="sports"
             pageSize={this.pageSize}
             country="in"
             category="sports"
-            apiKey = {this.apiKey}
+            apiKey={this.apiKey}
           />
         </div>
       ),
@@ -102,14 +119,15 @@ export default class App extends Component {
     {
       path: "technology",
       element: (
-        <div>
+        <div>          
           <NavBar />
           <News
+            setProgress={this.setProgress}
             key="technology"
             pageSize={this.pageSize}
             country="in"
             category="technology"
-            apiKey = {this.apiKey}
+            apiKey={this.apiKey}
           />
         </div>
       ),
@@ -119,6 +137,11 @@ export default class App extends Component {
   render() {
     return (
       <div>
+         <LoadingBar
+            color="#f11946"
+            progress={this.state.progress}
+            height={3}
+          />
         <RouterProvider router={this.router} />
       </div>
     );
