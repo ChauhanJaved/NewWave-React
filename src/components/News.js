@@ -9,7 +9,7 @@ export default class News extends Component {
     pageSize: 8,
     country: "in",
     category: "general",
-    apiKey: "74dcf378f4c24600b5b5e38115eb05d6",
+    apiKey: process.env.REACT_APP_NEWS_API
   };
   static propTypes = {
     pageSize: PropTypes.number,
