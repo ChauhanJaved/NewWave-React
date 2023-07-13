@@ -1,53 +1,44 @@
 import "./App.css";
-
-import React, { Component } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import NavBar from "./components/NavBar";
 import News from "./components/News";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 
-export default class App extends Component {
-  pageSize = 20;
-  apiKey = process.env.REACT_APP_NEWS_API;
- 
-    state = {
-      progress: 0 // Initial state value
-    };
-  
-
-  setProgress = (progress)=>{
-    this.setState({progress: progress})
-  }
- 
-  router = createBrowserRouter([
+export default function App() {
+  const pageSize = 20;
+  const apiKey = process.env.REACT_APP_NEWS_API;
+  const [progress, setProgress] = useState(0);
+  const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <div>              
+        <div>
           <NavBar />
           <News
-            setProgress={this.setProgress}            
+            setProgress={setProgress}
             key="general"
-            pageSize={this.pageSize}
+            pageSize={pageSize}
             country="in"
             category="general"
-            apiKey={this.apiKey}
-          />          
+            apiKey={apiKey}
+          />
         </div>
       ),
     },
     {
       path: "business",
       element: (
-        <div>          
+        <div>
           <NavBar />
           <News
-            setProgress={this.setProgress}            
+            setProgress={setProgress}
             key="business"
-            pageSize={this.pageSize}
+            pageSize={pageSize}
             country="in"
             category="business"
-            apiKey={this.apiKey}
+            apiKey={apiKey}
           />
         </div>
       ),
@@ -55,15 +46,15 @@ export default class App extends Component {
     {
       path: "entertainment",
       element: (
-        <div>          
+        <div>
           <NavBar />
           <News
-            setProgress={this.setProgress}
+            setProgress={setProgress}
             key="entertainment"
-            pageSize={this.pageSize}
+            pageSize={pageSize}
             country="in"
             category="entertainment"
-            apiKey={this.apiKey}
+            apiKey={apiKey}
           />
         </div>
       ),
@@ -71,15 +62,15 @@ export default class App extends Component {
     {
       path: "health",
       element: (
-        <div>          
+        <div>
           <NavBar />
           <News
-            setProgress={this.setProgress}
+            setProgress={setProgress}
             key="health"
-            pageSize={this.pageSize}
+            pageSize={pageSize}
             country="in"
             category="health"
-            apiKey={this.apiKey}
+            apiKey={apiKey}
           />
         </div>
       ),
@@ -87,15 +78,15 @@ export default class App extends Component {
     {
       path: "science",
       element: (
-        <div>          
+        <div>
           <NavBar />
           <News
-            setProgress={this.setProgress}
+            setProgress={setProgress}
             key="science"
-            pageSize={this.pageSize}
+            pageSize={pageSize}
             country="in"
             category="science"
-            apiKey={this.apiKey}
+            apiKey={apiKey}
           />
         </div>
       ),
@@ -103,15 +94,15 @@ export default class App extends Component {
     {
       path: "sports",
       element: (
-        <div>          
+        <div>
           <NavBar />
           <News
-            setProgress={this.setProgress}
+            setProgress={setProgress}
             key="sports"
-            pageSize={this.pageSize}
+            pageSize={pageSize}
             country="in"
             category="sports"
-            apiKey={this.apiKey}
+            apiKey={apiKey}
           />
         </div>
       ),
@@ -119,31 +110,30 @@ export default class App extends Component {
     {
       path: "technology",
       element: (
-        <div>          
+        <div>
           <NavBar />
           <News
-            setProgress={this.setProgress}
+            setProgress={setProgress}
             key="technology"
-            pageSize={this.pageSize}
+            pageSize={pageSize}
             country="in"
             category="technology"
-            apiKey={this.apiKey}
+            apiKey={apiKey}
           />
         </div>
       ),
     },
   ]);
-
-  render() {
-    return (
-      <div>
-         <LoadingBar
-            color="#f11946"
-            progress={this.state.progress}
-            height={3}
-          />
-        <RouterProvider router={this.router} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <LoadingBar color="#f11946" progress={progress} height={3} />
+      <RouterProvider router={router} />
+    </div>
+  );
 }
+App.propTypes = {
+  progress: PropTypes.number,
+};
+App.defaultProps = {
+  progress: 0,
+};
