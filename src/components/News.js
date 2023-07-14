@@ -12,7 +12,7 @@ export default function News(props) {
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-  document.title = `${capitalizeFirstLetter(props.category)}- NewsWave`;
+  
 
   const updateNews = async () => {
     props.setProgress(10);
@@ -31,19 +31,21 @@ export default function News(props) {
       setHasMore(false);
       return;
     }
-    setPage(page + 1);    
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
+    setPage(page + 1);    
     let data = await fetch(url);
     let parsedData = await data.json();
     setArticles(articles.concat(parsedData.articles));
+    
   };
   useEffect(() => {
+    document.title = `${capitalizeFirstLetter(props.category)}- NewsWave`;
     updateNews()
   },[])
 
   return (
     <>
-      <div className="text-center mb-4 mt-4">
+      <div className="text-center" style={{marginTop: '90px'}}>
         <h2>NewsWave: Top {capitalizeFirstLetter(props.category)} Headlines</h2>
       </div>
       <div>
